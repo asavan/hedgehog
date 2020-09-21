@@ -10,6 +10,7 @@ function starter(window, document) {
     for (const [key, value] of urlParams) {
         settings[key] = value;
     }
+    settings.size = urlParams.get('size') ? parseInt(urlParams.get('size'), 10) : settings.size;
     gameFunction(window, document, settings, urlParams);
 }
 

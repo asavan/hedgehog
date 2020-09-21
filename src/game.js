@@ -122,6 +122,11 @@ export default function game(window, document, settings, urlParams) {
     const overlay = document.getElementsByClassName("overlay")[0];
     const close = document.getElementsByClassName("close")[0];
 
+    if (settings.size !== 8) {
+        let root = document.documentElement;
+        root.style.setProperty('--field-size', settings.size);
+    }
+
 
     const handlers = {
         'playerMove': stub,
