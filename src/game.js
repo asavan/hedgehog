@@ -7,16 +7,18 @@ function randomIndex(length) {
     return Math.floor(Math.random() * length);
 }
 
+export default function game(window, document, settings, urlParams) {
+
 function engine() {
-    const w = 8;
-    const h = 8;
+    const w = settings.size;
+    const h = settings.size;
     let moveCount = 0;
     const horseDirections = [[-1, 0], [0, 1], [1, 0], [0, -1]];
     const horseDirectionsNames = ["Влево", "Вниз", "Вправо", "Вверх"];
     const isInField = (posX, posY, d) => posX + d[0] >= 0 && posX + d[0] < w && posY + d[1] >= 0 && posY + d[1] < h;
     const hedgehog = function () {
         let posX = 0;
-        let posY = 0;
+        let posY = h - 1;
         const getPosX = () => posX;
         const getPosY = () => posY;
         const tryMove = (i) => {
@@ -115,7 +117,7 @@ function draw(presenter, box, message, settings) {
     }
 }
 
-export default function game(window, document, settings, urlParams) {
+
     const box = document.getElementsByClassName("box")[0];
     const message = document.querySelector(".message");
     const overlay = document.getElementsByClassName("overlay")[0];
