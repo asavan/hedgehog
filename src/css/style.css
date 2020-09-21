@@ -24,7 +24,8 @@ body {
 .content {
     /*flex: 1 0 auto;*/
     flex: 1 0 auto;
-    /*display: flex;*/
+    display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -34,7 +35,7 @@ footer {
 
 .box {
     margin: 20px 5px;
-    max-width: min(100vmin, 600px);
+    width: min(100vmin, 600px);
     display: grid;
     gap: 3px;
     grid-template-columns: repeat(var(--field-size), 1fr);
@@ -76,9 +77,7 @@ img {
 
 .message {
     color: var(--main-inc-color);
-    font-size: 30px;
-    padding-left: 60px;
-    padding-top: 26px;
+    font-size: 150px;
     font-style: italic;
     display: inline-block;
 }
@@ -121,42 +120,15 @@ img {
     animation-fill-mode: forwards;
 }
 
-@media (max-width: 450px) {
-    .field {
-        flex-wrap: wrap;
-    }
-
-    hr {
-        width: 100%;
-    }
-
-    .digits {
-        /*background: #e6f2ff;*/
-        width: 55vh;
-        min-width: 45vh;
-    }
-
-    .box {
-        width: 55vh;
-        min-width: 45vh;
-    }
-
-    .cell {
-        width: 15vh;
-        margin: 0.5vh;
-        max-width: 100px;
-        height: 15vh;
-    }
-
-    .digit {
-        width: 15vh;
-        max-width: 100px;
-        height: 15vh;
-        margin: 0.5vh;
-    }
-
+@media (max-width: 600px) {
     .hidden2 {
         display: none;
+    }
+    .content {
+        flex-direction: column;
+    }
+    .message {
+        font-size: 30px;
     }
 }
 

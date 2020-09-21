@@ -7,9 +7,7 @@ function randomIndex(length) {
     return Math.floor(Math.random() * length);
 }
 
-export default function game(window, document, settings, urlParams) {
-
-function engine() {
+function engine(settings) {
     const w = settings.size;
     const h = settings.size;
     let moveCount = 0;
@@ -117,6 +115,7 @@ function draw(presenter, box, message, settings) {
     }
 }
 
+export default function game(window, document, settings, urlParams) {
 
     const box = document.getElementsByClassName("box")[0];
     const message = document.querySelector(".message");
@@ -152,7 +151,7 @@ function draw(presenter, box, message, settings) {
     }
 
 
-    const g = engine();
+    const g = engine(settings);
 
     initField(g.w * g.h, 'cell', box);
     g.horse.move();
@@ -163,8 +162,6 @@ function draw(presenter, box, message, settings) {
 
     const handleBox = function (evt) {
         const ind = handleClick(evt, box);
-
-        console.log(ind);
         if (g.hedgehog.tryMove(ind)) {
             if (g.isWin()) {
                 onGameEnd(g);
