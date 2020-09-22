@@ -7,6 +7,15 @@ function randomIndex(length) {
     return Math.floor(Math.random() * length);
 }
 
+function declOfNum(number, titles) {
+    const cases = [2, 0, 1, 1, 1, 2];
+    return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+}
+
+function numAndDeclOfNum(number, titles) {
+    return number + " " + declOfNum(number, titles);
+}
+
 function engine(settings) {
     const w = settings.size;
     const h = settings.size;
@@ -35,25 +44,35 @@ function engine(settings) {
         }
         return {getPosX: getPosX, getPosY: getPosY, tryMove: tryMove}
     }();
+    const onHedgehog = (posX, posY, d) => posX + d[0] === hedgehog.getPosX() && posY + d[1] === hedgehog.getPosY();
     const horse = function () {
         let posX = randomIndex(w);
         let posY = randomIndex(h);
+        while (posX === hedgehog.getPosX() && posY === hedgehog.getPosY()) {
+            posX = randomIndex(w);
+            posY = randomIndex(h);
+        }
         let lastMove = "left";
         const getPosX = () => posX;
         const getPosY = () => posY;
         const getLastMove = () => lastMove;
         const move = function () {
-            do {
-                const ind = randomIndex(horseDirections.length);
-                let d = horseDirections[ind];
-                if (isInField(posX, posY, d)) {
-                    lastMove = horseDirectionsNames[ind];
-                    posX = posX + d[0];
-                    posY = posY + d[1];
-                    ++moveCount;
-                    return true;
+            const availableInd = [];
+            let ind = 0;
+            for (const d of horseDirections) {
+                if (isInField(posX, posY, d) && !onHedgehog(posX, posY, d)) {
+                    availableInd.push(ind)
                 }
-            } while (true);
+                ++ind;
+            }
+
+            ind = availableInd[randomIndex(availableInd.length)];
+            let d = horseDirections[ind];
+            lastMove = horseDirectionsNames[ind];
+            posX = posX + d[0];
+            posY = posY + d[1];
+            ++moveCount;
+
         }
         return {getPosX: getPosX, getPosY: getPosY, move: move, getLastMove: getLastMove}
     }()
@@ -146,11 +165,11 @@ export default function game(window, document, settings, urlParams) {
     }
 
     function onGameEnd(eng) {
-        const message = "You win";
+        const message = "Нашлась!";
         const h2 = overlay.querySelector('h2');
         h2.textContent = message;
         const content = overlay.querySelector('.content');
-        content.textContent = "Result =  " + eng.getMoveCount();
+        content.textContent = "За  " + numAndDeclOfNum(eng.getMoveCount(), ['ход', 'хода', 'ходов']);
         overlay.classList.add('show');
         handlers['gameover'](eng.getMoveCount());
     }
