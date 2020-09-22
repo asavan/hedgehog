@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Правила</title>
+    <meta name="description" content="Hedgehog game">
+    <link id="favicon" rel="icon" href="./images/hedgehog.svg" sizes="any" type="image/svg+xml">
+    <style>
+        p {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 1.9rem; /* Размер шрифта в пунктах */
+            margin-top: 0;
+            width: 60vw;
+        }
+        .flip-card {
+            background-color: transparent;
+            width: 640px;
+            height: 480px;
+            border: 1px solid #f1f1f1;
+            perspective: 1000px; /* Remove this if you don't want the 3D effect */
+        }
+
+        /* This container is needed to position the front and back side */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            transform: rotateY(180deg);
+        }
+
+        /*!* Do an horizontal flip when you move the mouse over the flip box container *!*/
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(0deg);
+        }
+
+        /* Position the front and back side */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+
+
+
+        /* Style the front side (fallback if image is missing) */
+        .flip-card-front {
+            /*background-color: #bbb;*/
+            /*color: black;*/
+        }
+
+        /* Style the back side */
+        .flip-card-back {
+            /*background-color: dodgerblue;*/
+            /*color: white;*/
+            vertical-align: center;
+            transform: rotateY(180deg);
+            font-size: 20rem;
+            height: 100%;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        a {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row">
+<p>
+    Ежик стоит в левой нижней клетке поля 8×8. <br>
+    А в какой-то другой клетке пасется Лошадка.<br>
+    На поле стоит туман, ничего не видно, но ежику надо найти Лошадку. <br>
+    Лошадка каждую минуту переходит на соседнюю по стороне клетку<br>
+    и громко говорит, куда она перешла (влево, вправо, вверх или вниз). <br>
+    Ежик тоже может сделать шаг в одну из соседних по стороне или диагонали клеток, как только услышит Лошадку.<br>
+    Ежик найдет Лошадку, если окажется с ней на одной клетке.<br>
+    Что же делать Ежику?
+</p>
+
+<div class="flip-card">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img src="images/norstein.jpg" alt="ёжик в тумане" width="640px" height="480px">
+        </div>
+        <div class="flip-card-back">
+            &#128014;
+        </div>
+    </div>
+</div>
+</div>
+<a href="https://asavan.github.io/hedgehog/">Играть</a>
+<a href="https://asavan.github.io/hedgehog/?isHorseVisible=true&size=3">Попроще</a>
+<a href="/">Корень1</a>
+<a href="?isHorseVisible=true&size=3">Корень2</a>
+<a href="../?isHorseVisible=true&size=3">Корень3</a>
+</body>
+</html>
