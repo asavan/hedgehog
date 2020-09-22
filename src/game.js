@@ -123,6 +123,7 @@ function draw(presenter, box, message, settings) {
         tile.className = 'cell';
         if (presenter.isHedgehogPos(i)) {
             tile.innerHTML = "<span>&#129428;</span>";
+            tile.classList.add('flip');
         } else if (presenter.isHorsePos(i) && settings.isHorseVisible) {
             tile.innerHTML = "<span>&#128052;</span>";
         } else {
