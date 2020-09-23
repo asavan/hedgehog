@@ -18,6 +18,7 @@ function numAndDeclOfNum(number, titles) {
 
 function engine(w, h) {
     let moveCount = 0;
+    let isHorseMove = true;
     const horseDirections = [[-1, 0], [0, 1], [1, 0], [0, -1]];
     const horseDirectionsNames = ["Влево", "Вниз", "Вправо", "Вверх"];
     const isInField = (posX, posY, d) => posX + d[0] >= 0 && posX + d[0] < w && posY + d[1] >= 0 && posY + d[1] < h;
@@ -26,21 +27,45 @@ function engine(w, h) {
         let posY = h - 1;
         const getPosX = () => posX;
         const getPosY = () => posY;
-        const tryMove = (i) => {
-            const x = Math.floor(i % w);
-            const y = Math.floor(i / w);
+        const tryMove = (x, y) => {
+            if (isHorseMove) {
+                return false;
+            }
+
             if (Math.abs(posX - x) <= 1 && Math.abs(posY - y) <= 1) {
                 if (x >= 0 && x < w) {
                     if (y >= 0 && y < h) {
                         posX = x;
                         posY = y;
+                        isHorseMove = true;
                         return true;
                     }
                 }
             }
             return false;
         }
-        return {getPosX: getPosX, getPosY: getPosY, tryMove: tryMove}
+        const move = (ind) => {
+            if (isHorseMove) {
+                return false;
+            }
+            let m = 0;
+            for (let i = -1; i <= 1; ++i) {
+                for(let j = -1; j<=1; ++j) {
+                    if (m === ind) {
+                        if (isInField(posX, posY, [j,i])) {
+                            posX = posX + j;
+                            posY = posY + i;
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    ++m;
+                }
+            }
+            return false;
+        }
+        return {getPosX: getPosX, getPosY: getPosY, tryMove: tryMove, move: move}
     }();
     const onHedgehog = (posX, posY, d) => posX + d[0] === hedgehog.getPosX() && posY + d[1] === hedgehog.getPosY();
     const horse = function () {
@@ -50,11 +75,15 @@ function engine(w, h) {
             posX = randomIndex(w);
             posY = randomIndex(h);
         }
-        let lastMove = "left";
+        let lastMoveIndex = -1;
         const getPosX = () => posX;
         const getPosY = () => posY;
-        const getLastMove = () => lastMove;
+        const getLastMoveIndex = () => lastMoveIndex;
         const move = function () {
+            if (!isHorseMove) {
+                console.log("Error");
+                return;
+            }
             const availableInd = [];
             let ind = 0;
             for (const d of horseDirections) {
@@ -66,13 +95,13 @@ function engine(w, h) {
 
             ind = availableInd[randomIndex(availableInd.length)];
             let d = horseDirections[ind];
-            lastMove = horseDirectionsNames[ind];
+            lastMoveIndex = ind;
             posX = posX + d[0];
             posY = posY + d[1];
             ++moveCount;
-
+            isHorseMove = false;
         }
-        return {getPosX: getPosX, getPosY: getPosY, move: move, getLastMove: getLastMove}
+        return {getPosX: getPosX, getPosY: getPosY, move: move, getLastMoveIndex: getLastMoveIndex}
     }()
 
     const isXPosition = (i, x) => (i % w) === x.getPosX() && Math.floor(i / w) === x.getPosY()
@@ -82,15 +111,21 @@ function engine(w, h) {
 
     const isWin = () => horse.getPosX() === hedgehog.getPosX() && horse.getPosY() === hedgehog.getPosY();
 
+    const tryMoveToIndex = (i) => hedgehog.tryMove(i % w, Math.floor(i / w));
+
+    const getLastMove = () => horseDirectionsNames[horse.getLastMoveIndex()];
+
     return {
         w: w,
         h: h,
-        hedgehog: hedgehog,
+        // hedgehog: hedgehog,
         horse: horse,
         isHedgehogPos: isHedgehogPos,
         isHorsePos: isHorsePos,
         isWin: isWin,
-        getMoveCount: getMoveCount
+        tryMoveToIndex: tryMoveToIndex,
+        getMoveCount: getMoveCount,
+        getLastMove: getLastMove
     }
 }
 
@@ -134,8 +169,8 @@ function draw(presenter, box, message, settings) {
             tile.innerHTML = ""
         }
     }
-    if (message) {
-        message.innerText = presenter.horse.getLastMove();
+    if (message && presenter.getLastMove()) {
+        message.innerText = presenter.getLastMove();
     }
 }
 
@@ -183,28 +218,35 @@ export default function game(window, document, settings, urlParams) {
         handlers['gameover'](g.getMoveCount());
     }
 
-    initField(g.w * g.h, 'cell', box);
-    g.horse.move();
-    draw(g, box, message, settings);
-    if (g.isWin()) {
-        // should never happen
-        onGameEnd();
+
+
+    function drawWithAnimation() {
+        draw(g, box, message, settings);
+        if (g.isWin()) {
+            // should never happen
+            onGameEnd();
+        }
     }
+
+    function nextStep() {
+        function step() {
+            g.horse.move();
+            drawWithAnimation();
+        }
+        setTimeout(step, 200);
+    }
+
+    initField(g.w * g.h, 'cell', box);
+    drawWithAnimation();
+    nextStep();
 
     const handleBox = function (evt) {
         const ind = handleClick(evt, box);
-        if (g.hedgehog.tryMove(ind)) {
-            if (g.isWin()) {
-                onGameEnd();
-            } else {
-
-                g.horse.move();
-                if (g.isWin()) {
-                    // should never happen
-                    onGameEnd();
-                }
+        if (g.tryMoveToIndex(ind)) {
+            drawWithAnimation();
+            if (!g.isWin()) {
+                nextStep();
             }
-            draw(g, box, message, settings);
         }
     };
 
