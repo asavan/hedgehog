@@ -7,6 +7,11 @@ function randomIndex(length) {
     return Math.floor(Math.random() * length);
 }
 
+const playSound = (elem) => {
+    if (!elem) return;
+    elem.play();
+}
+
 function declOfNum(number, titles) {
     const cases = [2, 0, 1, 1, 1, 2];
     return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
@@ -146,7 +151,7 @@ const handleClick = function (evt, parent) {
 };
 
 function draw(presenter, box, message, settings) {
-    const avHorses = ["&#128052;", "&#128014;", "&#127904;"];
+    const avHorses = ["&#128052;", "&#128014;", "&#127904;", "&#9816;", "&#9822;"];
     for (let i = 0; i < presenter.w * presenter.h; i++) {
         const tile = box.childNodes[i];
         tile.className = 'cell';
@@ -158,11 +163,7 @@ function draw(presenter, box, message, settings) {
                 const horseIndex = parseInt(settings.horse, 10) - 1;
                 const horseText = avHorses[horseIndex];
                 if (horseText) {
-                    const text = "<span>" + horseText + "</span>";
-                    const text2 = `<span>${horseText}</span>`
-                    console.log(text);
-                    console.log(text2);
-                    tile.innerHTML = text;
+                    tile.innerHTML = `<span>${horseText}</span>`;
                 }
             }
         } else {
@@ -180,6 +181,7 @@ export default function game(window, document, settings, urlParams) {
     const message = document.querySelector(".message");
     const overlay = document.getElementsByClassName("overlay")[0];
     const close = document.getElementsByClassName("close")[0];
+    const tada = document.getElementById("tada");
 
     let size = 8; // default
     if (settings.size) {
@@ -209,16 +211,14 @@ export default function game(window, document, settings, urlParams) {
     const g = engine(size, size);
 
     function onGameEnd() {
-        const message = "Нашлась!";
-        const h2 = overlay.querySelector('h2');
-        h2.textContent = message;
         const content = overlay.querySelector('.content');
         content.textContent = "За  " + numAndDeclOfNum(g.getMoveCount(), ['ход', 'хода', 'ходов']);
         overlay.classList.add('show');
         handlers['gameover'](g.getMoveCount());
+        if (settings.sound) {
+            playSound(tada);
+        }
     }
-
-
 
     function drawWithAnimation() {
         draw(g, box, message, settings);
