@@ -4,7 +4,7 @@ export default {
     debug: true,
     wsPort : 8088,
     negotiatedId: 3,
-    isHorseVisible: false,
+    horseNum: 0,
     color: 'blue',
     size: 8
 }

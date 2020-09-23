@@ -16,9 +16,7 @@ function numAndDeclOfNum(number, titles) {
     return number + " " + declOfNum(number, titles);
 }
 
-function engine(settings) {
-    const w = settings.size;
-    const h = settings.size;
+function engine(w, h) {
     let moveCount = 0;
     const horseDirections = [[-1, 0], [0, 1], [1, 0], [0, -1]];
     const horseDirectionsNames = ["Влево", "Вниз", "Вправо", "Вверх"];
@@ -77,14 +75,9 @@ function engine(settings) {
         return {getPosX: getPosX, getPosY: getPosY, move: move, getLastMove: getLastMove}
     }()
 
-    const isHedgehogPos = (i) => {
-        return (i % w) === hedgehog.getPosX() && Math.floor(i / w) === hedgehog.getPosY()
-    }
-
-    const isHorsePos = (i) => {
-        return (i % w) === horse.getPosX() && Math.floor(i / w) === horse.getPosY()
-    }
-
+    const isXPosition = (i, x) => (i % w) === x.getPosX() && Math.floor(i / w) === x.getPosY()
+    const isHedgehogPos = (i) => isXPosition(i, hedgehog);
+    const isHorsePos = (i) => isXPosition(i, horse);
     const getMoveCount = () => moveCount;
 
     const isWin = () => horse.getPosX() === hedgehog.getPosX() && horse.getPosY() === hedgehog.getPosY();
@@ -118,14 +111,25 @@ const handleClick = function (evt, parent) {
 };
 
 function draw(presenter, box, message, settings) {
+    const avHorses = ["&#128052;", "&#128014;", "&#127904;"];
     for (let i = 0; i < presenter.w * presenter.h; i++) {
         const tile = box.childNodes[i];
         tile.className = 'cell';
         if (presenter.isHedgehogPos(i)) {
             tile.innerHTML = "<span>&#129428;</span>";
             tile.classList.add('flip');
-        } else if (presenter.isHorsePos(i) && settings.isHorseVisible) {
-            tile.innerHTML = "<span>&#128052;</span>";
+        } else if (presenter.isHorsePos(i)) {
+            if (settings.horse) {
+                const horseIndex = parseInt(settings.horse, 10) - 1;
+                const horseText = avHorses[horseIndex];
+                if (horseText) {
+                    const text = "<span>" + horseText + "</span>";
+                    const text2 = `<span>${horseText}</span>`
+                    console.log(text);
+                    console.log(text2);
+                    tile.innerHTML = text;
+                }
+            }
         } else {
             tile.innerHTML = ""
         }
@@ -142,11 +146,12 @@ export default function game(window, document, settings, urlParams) {
     const overlay = document.getElementsByClassName("overlay")[0];
     const close = document.getElementsByClassName("close")[0];
 
-    if (settings.size !== 8) {
+    let size = 8; // default
+    if (settings.size) {
+        size = parseInt(settings.size, 10);
         let root = document.documentElement;
-        root.style.setProperty('--field-size', settings.size);
+        root.style.setProperty('--field-size', size);
     }
-
 
     const handlers = {
         'playerMove': stub,
@@ -165,35 +170,38 @@ export default function game(window, document, settings, urlParams) {
         }
     }
 
-    function onGameEnd(eng) {
+
+    const g = engine(size, size);
+
+    function onGameEnd() {
         const message = "Нашлась!";
         const h2 = overlay.querySelector('h2');
         h2.textContent = message;
         const content = overlay.querySelector('.content');
-        content.textContent = "За  " + numAndDeclOfNum(eng.getMoveCount(), ['ход', 'хода', 'ходов']);
+        content.textContent = "За  " + numAndDeclOfNum(g.getMoveCount(), ['ход', 'хода', 'ходов']);
         overlay.classList.add('show');
-        handlers['gameover'](eng.getMoveCount());
+        handlers['gameover'](g.getMoveCount());
     }
-
-
-    const g = engine(settings);
 
     initField(g.w * g.h, 'cell', box);
     g.horse.move();
     draw(g, box, message, settings);
     if (g.isWin()) {
-        onGameEnd(g);
+        // should never happen
+        onGameEnd();
     }
 
     const handleBox = function (evt) {
         const ind = handleClick(evt, box);
         if (g.hedgehog.tryMove(ind)) {
             if (g.isWin()) {
-                onGameEnd(g);
+                onGameEnd();
             } else {
+
                 g.horse.move();
                 if (g.isWin()) {
-                    onGameEnd(g);
+                    // should never happen
+                    onGameEnd();
                 }
             }
             draw(g, box, message, settings);
