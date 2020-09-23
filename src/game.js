@@ -151,7 +151,7 @@ const handleClick = function (evt, parent) {
 };
 
 function draw(presenter, box, message, settings) {
-    const avHorses = ["&#128052;", "&#128014;", "&#127904;", "&#9816;", "&#9822;"];
+    const avHorses = ["&#128052;", "&#128014;", "&#127904;", "&#127943;", "&#9816;", "&#9822;"];
     for (let i = 0; i < presenter.w * presenter.h; i++) {
         const tile = box.childNodes[i];
         tile.className = 'cell';
