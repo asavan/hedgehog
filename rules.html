@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Правила</title>
     <meta name="description" content="Игра Ёжик и Лошадка">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link id="favicon" rel="icon" href="./images/hedgehog.svg" sizes="any" type="image/svg+xml">
     <style>
         body {
@@ -58,7 +59,10 @@
             display: block;
         }
         @media (max-width: 600px) {
-            .flip-card-back {
+            body {
+                font-size: 1.3rem;
+            }
+            .flip-card {
                 display: none;
             }
         }
