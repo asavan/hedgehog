@@ -1,7 +1,8 @@
 "use strict"; // jshint ;_;
 
-import {playSound, numAndDeclOfNum, handleClick} from "./helper.js";
+import {playSound, handleClick} from "./helper.js";
 import engine from "./logic.js";
+import translationFunc from "./translation.js";
 
 function stub() {
 }
@@ -27,8 +28,9 @@ function draw(presenter, box, message, settings) {
             tile.innerHTML = ""
         }
     }
-    if (message && presenter.getLastMove()) {
-        message.innerText = presenter.getLastMove();
+    if (message && presenter.getLastMoveInd() >= 0) {
+        const translation = translationFunc(settings.lang);
+        message.innerText = translation.getMove(presenter.getLastMoveInd());
     }
 }
 
@@ -36,9 +38,15 @@ export default function game(window, document, settings) {
 
     const box = document.getElementsByClassName("box")[0];
     const message = document.querySelector(".message");
-    const overlay = document.getElementsByClassName("overlay")[0];
-    const close = document.getElementsByClassName("close")[0];
-    const tada = document.getElementById("tada");
+
+    const translation = translationFunc(settings.lang);
+    // translate header and description
+    {
+        document.title = translation.getTitle();
+        document.querySelector('meta[name="description"]').setAttribute("content", translation.getDescription());
+        document.querySelector('.butInstall').textContent = translation.installPrompt();
+        document.documentElement.lang = settings.lang || 'en';
+    }
 
     document.documentElement.style.setProperty('--field-size', settings.size);
 
@@ -63,11 +71,25 @@ export default function game(window, document, settings) {
     const g = engine(settings.size, settings.size);
 
     function onGameEnd() {
-        const content = overlay.querySelector('.content');
-        content.textContent = "За  " + numAndDeclOfNum(g.getMoveCount(), ['ход', 'хода', 'ходов']);
+        const overlay = document.getElementsByClassName("overlay")[0];
+        const template = document.querySelector('#win-message-tmpl');
+        const clone = template.content.cloneNode(true);
+        const header = clone.querySelector('h2');
+        header.textContent = translation.winHeader();
+        const content = clone.querySelector('.content');
+        content.textContent = translation.winMessage(g.getMoveCount());
+        const close = clone.querySelector(".close");
+        overlay.appendChild(clone);
         overlay.classList.add('show');
+
+        close.addEventListener("click", function (e) {
+            e.preventDefault();
+            overlay.classList.remove("show");
+        }, {once: true});
+
         handlers['gameover'](g.getMoveCount());
         if (settings.sound) {
+            const tada = document.getElementById("tada");
             playSound(tada);
         }
     }
@@ -103,10 +125,6 @@ export default function game(window, document, settings) {
     };
 
     box.addEventListener("click", handleBox, false);
-    close.addEventListener("click", function (e) {
-        e.preventDefault();
-        overlay.classList.remove("show");
-    }, false);
 
     function on(name, f) {
         handlers[name] = f;

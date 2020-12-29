@@ -1,5 +1,6 @@
 export default {
     horse: 0,
     size: 8,
-    sound: false
+    sound: false,
+    lang: "en"
 }

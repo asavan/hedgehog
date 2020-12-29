@@ -1,5 +1,6 @@
 "use strict";
-function stringToBoolean(string){
+function stringToBoolean(string) {
+    if (!string) return false;
     switch(string.toLowerCase().trim()){
         case "true": case "yes": case "1": return true;
         case "false": case "no": case "0": case null: return false;
@@ -53,6 +54,10 @@ export function declOfNum(number, titles) {
 
 export function numAndDeclOfNum(number, titles) {
     return number + " " + declOfNum(number, titles);
+}
+
+export function pluralize(count, noun, suffix = 's') {
+    return `${count} ${noun}${count !== 1 ? suffix : ''}`;
 }
 
 export function handleClick(evt, parent) {

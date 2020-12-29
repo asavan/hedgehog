@@ -6,7 +6,6 @@ export default function engine(w, h) {
     let moveCount = 0;
     let isHorseMove = true;
     const horseDirections = [[-1, 0], [0, 1], [1, 0], [0, -1]];
-    const horseDirectionsNames = ["Влево", "Вниз", "Вправо", "Вверх"];
     const isInField = (posX, posY, d) => posX + d[0] >= 0 && posX + d[0] < w && posY + d[1] >= 0 && posY + d[1] < h;
     const hedgehog = function () {
         let posX = 0;
@@ -99,7 +98,7 @@ export default function engine(w, h) {
 
     const tryMoveToIndex = (i) => hedgehog.tryMove(i % w, Math.floor(i / w));
 
-    const getLastMove = () => horseDirectionsNames[horse.getLastMoveIndex()];
+    const getLastMoveInd = () => horse.getLastMoveIndex();
 
     return {
         w: w,
@@ -111,6 +110,6 @@ export default function engine(w, h) {
         isWin: isWin,
         tryMoveToIndex: tryMoveToIndex,
         getMoveCount: getMoveCount,
-        getLastMove: getLastMove
+        getLastMoveInd: getLastMoveInd
     }
 }
