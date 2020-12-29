@@ -20,7 +20,7 @@ module.exports = (env, argv) => {
         module: {
             rules: [
                 {
-                    test: //.css$/i,
+                    test: /.css$/i,
                     use: [{
                         loader: MiniCssExtractPlugin.loader
                     }, 'css-loader'],

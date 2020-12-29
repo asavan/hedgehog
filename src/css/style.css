@@ -65,7 +65,7 @@ img {
 }
 
 .cell {
-    font: 50px Tahoma, sans;
+    font: 2.5rem Tahoma, sans;
     padding: 0px 0px 100% 0px;
     position: relative;
     border-radius: 10px;
@@ -96,6 +96,7 @@ img {
     top: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
+    z-index: 1;
 }
 
 .digit {
@@ -211,7 +212,7 @@ img {
     color: var(--player-color);
 }
 
-.popup .content {
+.message_content {
     max-height: 30%;
     font-size: 1.2rem;
     overflow: auto;
