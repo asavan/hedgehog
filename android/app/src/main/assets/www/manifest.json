@@ -1,0 +1,16 @@
+{
+    "name": "Hedgehog and Horse game",
+	"short_name": "hedgehog-horse",
+    "icons": [
+        {
+            "src": "./images/hedgehog_eye.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "start_url": "./",
+    "display": "standalone"
+}

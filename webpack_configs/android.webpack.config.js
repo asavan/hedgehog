@@ -7,7 +7,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const HashOutput = require('webpack-plugin-hash-output');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
     return {
@@ -54,6 +54,13 @@ module.exports = (env, argv) => {
             }),
             new webpack.DefinePlugin({
                 __USE_SERVICE_WORKERS__: false
+            }),
+            new CopyPlugin({
+                patterns: [
+                    { from: './images', to: './images' },
+                    { from: './sound', to: './sound' },
+                    { from: './manifest.json', to: './' },
+                ],
             })
         ]
     }
