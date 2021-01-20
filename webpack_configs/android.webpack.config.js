@@ -1,12 +1,11 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserJSPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const webpack = require('webpack');
-const HashOutput = require('webpack-plugin-hash-output');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env, argv) => {
@@ -15,7 +14,7 @@ module.exports = (env, argv) => {
         entry: {main: "./src/index.js"},
         output: {
             path: path.resolve(__dirname, "../android/app/src/main/assets/www"),
-            filename: "[name].[chunkhash].js"
+            filename: "[name].[contenthash].js"
         },
         module: {
             rules: [
@@ -35,19 +34,16 @@ module.exports = (env, argv) => {
                         drop_console: true
                     }
                 }
-            }), new OptimizeCSSAssetsPlugin({})],
+            }), new CssMinimizerPlugin({})],
         },
         plugins: [
             new CleanWebpackPlugin(),
-            new HashOutput(),
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
                 minify: false,
+                scriptLoading: 'defer',
                 // filename:  "index.html",
                 inject: 'head',
-            }),
-            new ScriptExtHtmlWebpackPlugin({
-                defaultAttribute: 'async'
             }),
             new MiniCssExtractPlugin({
                 filename: '[name].[contenthash].css'

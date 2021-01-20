@@ -63,7 +63,7 @@ public class AndroidWebServerActivity extends AppCompatActivity {
             mainParams.put("sound", "1");
             mainParams.put("wh", webSocketHost);
             mainParams.put("sh", host);
-            launchWebView(getStaticHost(LOCAL_IP), mainParams);
+            launchWebView(WEB_VIEW_URL, mainParams);
 
             // launchWebView(WEB_VIEW_URL, mainParams);
             // launchWebView(getStaticHost(LOCAL_IP), mainParams);
