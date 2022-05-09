@@ -10,6 +10,9 @@ function stringToBoolean(string) {
 
 function starter(window, document, settings, f) {
     const queryString = window.location.search;
+    if (navigator.language === 'ru-RU') {
+        settings.lang = 'ru';
+    }
     const urlParams = new URLSearchParams(queryString);
     for (const [key, value] of urlParams) {
         if (typeof settings[key] === "number") {
