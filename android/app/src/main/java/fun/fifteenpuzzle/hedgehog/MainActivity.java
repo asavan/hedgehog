@@ -1,5 +1,6 @@
 package fun.fifteenpuzzle.hedgehog;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -10,9 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     public static final String WEB_VIEW_URL = "file:///android_asset/www/index.html";
 

@@ -1,12 +1,3 @@
 <resources>
     <string name="app_name">Ёжик и Лошадка</string>
-    <string name="launch">Запустить в браузере</string>
-    <string name="launch_twa_local">Запустить</string>
-    <string name="launch_twa_atenalp">Запустить новейшую версию</string>
-    <string name="launch_real_ip">Настоящий IP</string>
-    <string name="launch_first">Начать первым</string>
-    <string name="server_mode">Режим сервера</string>
-    <string name="ai">Сыграть с ботом</string>
-    <string name="webview">Webview</string>
-    <string name="launch_localhost">Запустить на localhost</string>
 </resources>
