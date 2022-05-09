@@ -1,4 +1,4 @@
-import {numAndDeclOfNum, pluralize} from "./helper";
+import {numAndDeclOfNum, pluralize} from "./helper.js";
 
 export default function translationFunc(lang) {
     function ruTranslation() {
