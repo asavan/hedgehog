@@ -57,7 +57,9 @@ const androidConfig = (env, argv) => {
                 patterns: [
                     { from: './src/images', to: './images' },
                     { from: './src/sound', to: './sound' },
-                    { from: './manifest.json', to: './' },
+                    { from: './src/rules.html', to: './' },
+                    { from: './src/manifest.json', to: './' },
+                    { from: './.well-known', to: './well-known' }
                 ],
             })
         ]
