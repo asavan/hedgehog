@@ -76,8 +76,8 @@ const webConfig = (env, argv) => {
             }),
             new CopyPlugin({
                 patterns: [
-                    { from: './images', to: './images' },
-                    { from: './sound', to: './sound' },
+                    { from: './src/images', to: './images' },
+                    { from: './src/sound', to: './sound' },
                     { from: './src/manifest.json', to: './' },
                     { from: './src/rules.html', to: './' },
                     { from: './.well-known', to: './.well-known' },

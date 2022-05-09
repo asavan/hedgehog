@@ -1,19 +1,21 @@
-const path = require("path");
+import path from 'path'
+import { fileURLToPath } from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TerserJSPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin'
 
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserJSPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
+import webpack from 'webpack'
 
-module.exports = (env, argv) => {
+
+const androidConfig = (env, argv) => {
+    const dirname = path.dirname(fileURLToPath(import.meta.url));
     return {
-
         entry: {main: "./src/index.js"},
         output: {
-            path: path.resolve(__dirname, "../android/app/src/main/assets/www"),
+            path: path.resolve(dirname, "../android/app/src/main/assets/www"),
             filename: "[name].[contenthash].js"
         },
         module: {
@@ -53,11 +55,13 @@ module.exports = (env, argv) => {
             }),
             new CopyPlugin({
                 patterns: [
-                    { from: './images', to: './images' },
-                    { from: './sound', to: './sound' },
+                    { from: './src/images', to: './images' },
+                    { from: './src/sound', to: './sound' },
                     { from: './manifest.json', to: './' },
                 ],
             })
         ]
     }
 };
+
+export default androidConfig;
