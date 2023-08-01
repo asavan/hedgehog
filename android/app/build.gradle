@@ -1,7 +1,13 @@
 apply plugin: 'com.android.application'
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 android {
-    compileSdkVersion 33
+    compileSdk 33
 
     defaultConfig {
         applicationId "fun.fifteenpuzzle.hedgehog"

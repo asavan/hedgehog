@@ -2,6 +2,7 @@ package fun.fifteenpuzzle.hedgehog;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class UrlUtils {
@@ -9,13 +10,13 @@ public class UrlUtils {
         StringBuilder b = new StringBuilder();
         b.append(host);
         if (parameters != null && !parameters.isEmpty()) {
-            b.append("?").append(mapToParamString(parameters));
+            b.append("?");
+            mapToParamString(b, parameters);
         }
         return b.toString();
     }
 
-    private static String mapToParamString(Map<String, String> parameters) {
-        StringBuilder acc = new StringBuilder();
+    private static void mapToParamString(StringBuilder acc, Map<String, String> parameters) {
         boolean firstElem = true;
         for (Map.Entry<String, String> p : parameters.entrySet()) {
             if (!firstElem) {
@@ -24,14 +25,13 @@ public class UrlUtils {
             firstElem = false;
             acc.append(p.getKey()).append("=").append(urlEncodeUTF8(p.getValue()));
         }
-        return acc.toString();
     }
 
     private static String urlEncodeUTF8(String s) {
         try {
-            return URLEncoder.encode(s, "UTF-8");
+            return URLEncoder.encode(s, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
-            throw new UnsupportedOperationException(e);
+            throw new RuntimeException(e);
         }
     }
 }
