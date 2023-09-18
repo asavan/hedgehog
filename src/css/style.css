@@ -44,7 +44,7 @@ footer {
 .install {
     background-color: var(--main-color);
     text-align: center;
-    font: bold 24px/100px Tahoma, sans;
+    font: bold 24px/100px Tahoma, sans-serif;
     height: 100px;
     width: 100%;
     cursor: pointer;
@@ -65,7 +65,7 @@ img {
 }
 
 .cell {
-    font: 2.5rem Tahoma, sans;
+    font: 2.5rem Tahoma, sans-serif;
     padding: 0px 0px 100% 0px;
     position: relative;
     border-radius: 10px;

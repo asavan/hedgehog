@@ -1,17 +1,18 @@
 "use strict";
+
 function stringToBoolean(string) {
     if (!string) return false;
     switch(string.toLowerCase().trim()){
-        case "true": case "yes": case "1": return true;
-        case "false": case "no": case "0": case null: return false;
-        default: return Boolean(string);
+    case "true": case "yes": case "1": return true;
+    case "false": case "no": case "0": case null: return false;
+    default: return Boolean(string);
     }
 }
 
 function starter(window, document, settings, f) {
     const queryString = window.location.search;
-    if (navigator.language === 'ru-RU') {
-        settings.lang = 'ru';
+    if (navigator.language === "ru-RU") {
+        settings.lang = "ru";
     }
     const urlParams = new URLSearchParams(queryString);
     for (const [key, value] of urlParams) {
@@ -27,10 +28,10 @@ function starter(window, document, settings, f) {
 }
 
 function launch(f, window, document, settings, afterUrlParse) {
-    if (document.readyState !== 'loading') {
+    if (document.readyState !== "loading") {
         f(window, document, settings, afterUrlParse);
     } else {
-        document.addEventListener("DOMContentLoaded", function (event) {
+        document.addEventListener("DOMContentLoaded", function () {
             f(window, document, settings, afterUrlParse);
         });
     }
@@ -45,7 +46,7 @@ export function randomIndex(length) {
     return Math.floor(Math.random() * length);
 }
 
-export const playSound = (elem) => {
+export function playSound(elem) {
     if (!elem) return;
     elem.play();
 }
@@ -59,8 +60,8 @@ export function numAndDeclOfNum(number, titles) {
     return number + " " + declOfNum(number, titles);
 }
 
-export function pluralize(count, noun, suffix = 's') {
-    return `${count} ${noun}${count !== 1 ? suffix : ''}`;
+export function pluralize(count, noun, suffix = "s") {
+    return `${count} ${noun}${count !== 1 ? suffix : ""}`;
 }
 
 export function handleClick(evt, parent) {
@@ -73,7 +74,7 @@ export function handleClick(evt, parent) {
     };
 
     evt.preventDefault();
-    if (!(evt.target.classList.contains('cell') || evt.target.classList.contains('digit'))) {
+    if (!(evt.target.classList.contains("cell") || evt.target.classList.contains("digit"))) {
         return;
     }
     return getIndex(evt, parent);

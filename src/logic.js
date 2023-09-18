@@ -28,7 +28,7 @@ export default function engine(w, h) {
                 }
             }
             return false;
-        }
+        };
         const move = (ind) => {
             if (isHorseMove) {
                 return false;
@@ -49,8 +49,8 @@ export default function engine(w, h) {
                 }
             }
             return false;
-        }
-        return {getPosX: getPosX, getPosY: getPosY, tryMove: tryMove, move: move}
+        };
+        return {getPosX: getPosX, getPosY: getPosY, tryMove: tryMove, move: move};
     }();
     const onHedgehog = (posX, posY, d) => posX + d[0] === hedgehog.getPosX() && posY + d[1] === hedgehog.getPosY();
     const horse = function () {
@@ -73,7 +73,7 @@ export default function engine(w, h) {
             let ind = 0;
             for (const d of horseDirections) {
                 if (isInField(posX, posY, d) && !onHedgehog(posX, posY, d)) {
-                    availableInd.push(ind)
+                    availableInd.push(ind);
                 }
                 ++ind;
             }
@@ -85,11 +85,11 @@ export default function engine(w, h) {
             posY = posY + d[1];
             ++moveCount;
             isHorseMove = false;
-        }
-        return {getPosX: getPosX, getPosY: getPosY, move: move, getLastMoveIndex: getLastMoveIndex}
-    }()
+        };
+        return {getPosX: getPosX, getPosY: getPosY, move: move, getLastMoveIndex: getLastMoveIndex};
+    }();
 
-    const isXPosition = (i, x) => (i % w) === x.getPosX() && Math.floor(i / w) === x.getPosY()
+    const isXPosition = (i, x) => (i % w) === x.getPosX() && Math.floor(i / w) === x.getPosY();
     const isHedgehogPos = (i) => isXPosition(i, hedgehog);
     const isHorsePos = (i) => isXPosition(i, horse);
     const getMoveCount = () => moveCount;
@@ -111,5 +111,5 @@ export default function engine(w, h) {
         tryMoveToIndex: tryMoveToIndex,
         getMoveCount: getMoveCount,
         getLastMoveInd: getLastMoveInd
-    }
+    };
 }

@@ -3,4 +3,4 @@ export default {
     size: 8,
     sound: false,
     lang: "en"
-}
+};

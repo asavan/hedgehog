@@ -19,13 +19,13 @@ export default function translationFunc(lang) {
         }
 
         function winMessage(moveCount) {
-            return "За " + numAndDeclOfNum(moveCount, ['ход', 'хода', 'ходов']);
+            return "За " + numAndDeclOfNum(moveCount, ["ход", "хода", "ходов"]);
         }
 
         const getMove = (index) => horseDirectionsNames[index];
         return {
             getTitle, getDescription, getMove, winHeader, installPrompt, winMessage
-        }
+        };
     }
 
     function engTranslation() {
@@ -52,10 +52,10 @@ export default function translationFunc(lang) {
         const getMove = (index) => horseDirectionsNames[index];
         return {
             getTitle, getDescription, getMove, winHeader, installPrompt, winMessage
-        }
+        };
     }
 
-    if (lang === 'ru') {
+    if (lang === "ru") {
         return ruTranslation();
     }
     return engTranslation();

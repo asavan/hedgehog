@@ -12,10 +12,10 @@ function draw(presenter, box, message, settings) {
     const avHorses = ["&#128052;", "&#128014;", "&#127904;", "&#127943;", "&#9816;", "&#9822;"];
     for (let i = 0; i < presenter.w * presenter.h; i++) {
         const tile = box.childNodes[i];
-        tile.className = 'cell';
+        tile.className = "cell";
         if (presenter.isHedgehogPos(i)) {
             tile.innerHTML = "<span>&#129428;</span>";
-            tile.classList.add('flip');
+            tile.classList.add("flip");
         } else if (presenter.isHorsePos(i)) {
             if (settings.horse) {
                 const horseIndex = parseInt(settings.horse, 10) - 1;
@@ -25,7 +25,7 @@ function draw(presenter, box, message, settings) {
                 }
             }
         } else {
-            tile.innerHTML = ""
+            tile.innerHTML = "";
         }
     }
     if (message && presenter.getLastMoveInd() >= 0) {
@@ -43,25 +43,25 @@ export default function game(window, document, settings) {
     // translate header and description
     {
         document.title = translation.getTitle();
-        document.querySelector('meta[name="description"]').setAttribute("content", translation.getDescription());
-        document.querySelector('.butInstall').textContent = translation.installPrompt();
-        document.documentElement.lang = settings.lang || 'en';
+        document.querySelector("meta[name=\"description\"]").setAttribute("content", translation.getDescription());
+        document.querySelector(".butInstall").textContent = translation.installPrompt();
+        document.documentElement.lang = settings.lang || "en";
     }
 
-    document.documentElement.style.setProperty('--field-size', settings.size);
+    document.documentElement.style.setProperty("--field-size", settings.size);
 
     const handlers = {
-        'playerMove': stub,
-        'enemyMove': stub,
-        'meMove': stub,
-        'aiMove': stub,
-        'aiHint': stub,
-        'gameover': stub
-    }
+        "playerMove": stub,
+        "enemyMove": stub,
+        "meMove": stub,
+        "aiMove": stub,
+        "aiHint": stub,
+        "gameover": stub
+    };
 
     function initField(fieldSize, className, elem) {
         for (let i = 0; i < fieldSize; i++) {
-            const cell = document.createElement('div');
+            const cell = document.createElement("div");
             cell.className = className;
             elem.appendChild(cell);
         }
@@ -72,22 +72,22 @@ export default function game(window, document, settings) {
 
     function onGameEnd() {
         const overlay = document.getElementsByClassName("overlay")[0];
-        const template = document.querySelector('#win-message-tmpl');
+        const template = document.querySelector("#win-message-tmpl");
         const clone = template.content.cloneNode(true);
-        const header = clone.querySelector('h2');
+        const header = clone.querySelector("h2");
         header.textContent = translation.winHeader();
-        const content = clone.querySelector('.message_content');
+        const content = clone.querySelector(".message_content");
         content.textContent = translation.winMessage(g.getMoveCount());
         const close = clone.querySelector(".close");
         overlay.appendChild(clone);
-        overlay.classList.add('show');
+        overlay.classList.add("show");
 
         close.addEventListener("click", function (e) {
             e.preventDefault();
             overlay.classList.remove("show");
         }, {once: true});
 
-        handlers['gameover'](g.getMoveCount());
+        handlers["gameover"](g.getMoveCount());
         if (settings.sound) {
             const tada = document.getElementById("tada");
             playSound(tada);
@@ -110,7 +110,7 @@ export default function game(window, document, settings) {
         setTimeout(step, 200);
     }
 
-    initField(g.w * g.h, 'cell', box);
+    initField(g.w * g.h, "cell", box);
     drawWithAnimation();
     nextStep();
 
@@ -132,5 +132,5 @@ export default function game(window, document, settings) {
 
     return {
         on: on
-    }
+    };
 }
