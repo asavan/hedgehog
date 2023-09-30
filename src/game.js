@@ -76,7 +76,7 @@ export default function game(window, document, settings) {
         const clone = template.content.cloneNode(true);
         const header = clone.querySelector("h2");
         header.textContent = translation.winHeader();
-        const content = clone.querySelector(".message_content");
+        const content = clone.querySelector(".message-content");
         content.textContent = translation.winMessage(g.getMoveCount());
         const close = clone.querySelector(".close");
         overlay.appendChild(clone);

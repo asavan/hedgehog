@@ -4,7 +4,6 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import TerserJSPlugin from "terser-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-import {CleanWebpackPlugin} from "clean-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 
 import webpack from "webpack";
@@ -16,7 +15,8 @@ export default function androidConfig() {
         entry: {main: "./src/index.js"},
         output: {
             path: path.resolve(dirname, "../android/app/src/main/assets/www"),
-            filename: "[name].[contenthash].js"
+            filename: "[name].[contenthash].js",
+            clean: true
         },
         module: {
             rules: [
@@ -39,7 +39,6 @@ export default function androidConfig() {
             }), new CssMinimizerPlugin({})],
         },
         plugins: [
-            new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
                 minify: false,

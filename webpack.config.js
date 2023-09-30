@@ -1,17 +1,15 @@
 import path from "path";
 import os from "os";
 import { fileURLToPath } from "url";
+
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyPlugin from "copy-webpack-plugin";
-import webpack from "webpack";
-
-
 import TerserJSPlugin from "terser-webpack-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-import {CleanWebpackPlugin} from "clean-webpack-plugin";
+import {InjectManifest} from "workbox-webpack-plugin";
 
-// process.traceDeprecation = true;
+import webpack from "webpack";
 
 const getLocalExternalIP = () => [].concat(...Object.values(os.networkInterfaces()))
     .filter(details => (details.family === "IPv4" || details.family === 4) && !details.internal)
@@ -26,7 +24,8 @@ const webConfig = (env, argv) => {
         entry: {main: "./src/index.js"},
         output: {
             path: path.resolve(dirname, "docs"),
-            filename: devMode ? "[name].js" : "[name].[contenthash].js"
+            filename: devMode ? "[name].js" : "[name].[contenthash].js",
+            clean: true
         },
         module: {
             rules: [
@@ -53,7 +52,6 @@ const webConfig = (env, argv) => {
             }), new CssMinimizerPlugin()],
         },
         plugins: [
-            new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
                 minify: false,
@@ -64,13 +62,17 @@ const webConfig = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: devMode ? "[name].css" : "[name].[contenthash].css"
             }),
-            // ...(devMode ? [] : [new GenerateSW({
-            //     swDest: '../sw.js',
-            //     // these options encourage the ServiceWorkers to get in there fast
-            //     // and not allow any straggling "old" SWs to hang around
-            //     clientsClaim: true,
-            //     skipWaiting: true,
-            // })]),
+            ...(devMode ? [] : [new InjectManifest({
+                swDest: "./sw.js",
+                swSrc: "./src/sw.js",
+                exclude: [
+                    /index\.html$/,
+                    /CNAME$/,
+                    /\.nojekyll$/,
+                    /_config\.yml$/,
+                    /^.*well-known\/.*$/,
+                ]
+            })]),
             new webpack.DefinePlugin({
                 __USE_SERVICE_WORKERS__: !devMode
             }),

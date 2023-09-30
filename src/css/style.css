@@ -22,7 +22,6 @@ body {
 }
 
 .content {
-    /*flex: 1 0 auto;*/
     flex: 1 0 auto;
     display: flex;
     align-items: center;
@@ -66,16 +65,16 @@ img {
 
 .cell {
     font: 2.5rem Tahoma, sans-serif;
-    padding: 0px 0px 100% 0px;
+    padding: 0 0 100%;
     position: relative;
     border-radius: 10px;
-    box-shadow:inset 0px 0px 0px 2px gray;
+    box-shadow:inset 0 0 0 2px gray;
     background-color: var(--main-color);
     touch-action: none;
     user-select: none;
 }
 
-.message_container {
+.message-container {
     height: 100%;
     width: 100%;
     display: flex;
@@ -129,13 +128,15 @@ img {
     animation-fill-mode: forwards;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
     .hidden2 {
         display: none;
     }
+
     .content {
         flex-direction: column;
     }
+
     .message {
         font-size: 30px;
     }
@@ -164,11 +165,8 @@ img {
 
 .overlay {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
+    inset: 0;
+    background: rgb(0 0 0 / 70%);
     transition: opacity 700ms;
     visibility: hidden;
     opacity: 0;
@@ -212,7 +210,7 @@ img {
     color: var(--player-color);
 }
 
-.message_content {
+.message-content {
     max-height: 30%;
     font-size: 1.2rem;
     overflow: auto;
