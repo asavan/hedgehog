@@ -37,7 +37,7 @@ export default function engine(w, h) {
             for (let i = -1; i <= 1; ++i) {
                 for(let j = -1; j<=1; ++j) {
                     if (m === ind) {
-                        if (isInField(posX, posY, [j,i])) {
+                        if (isInField(posX, posY, [j, i])) {
                             posX = posX + j;
                             posY = posY + i;
                             return true;
@@ -79,7 +79,7 @@ export default function engine(w, h) {
             }
 
             ind = availableInd[randomIndex(availableInd.length)];
-            let d = horseDirections[ind];
+            const d = horseDirections[ind];
             lastMoveIndex = ind;
             posX = posX + d[0];
             posY = posY + d[1];
