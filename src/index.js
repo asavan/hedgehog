@@ -1,5 +1,4 @@
 "use strict";
-import "./css/style.css";
 
 import settings from "./settings.js";
 import gameFunction from "./game.js";
