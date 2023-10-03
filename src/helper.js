@@ -1,8 +1,10 @@
 "use strict";
 
 function stringToBoolean(string) {
-    if (!string) return false;
-    switch(string.toLowerCase().trim()){
+    if (!string) {
+        return false;
+    }
+    switch (string.toLowerCase().trim()) {
     case "true": case "yes": case "1": return true;
     case "false": case "no": case "0": case null: return false;
     default: return Boolean(string);
@@ -31,7 +33,7 @@ function launch(f, window, document, settings, afterUrlParse) {
     if (document.readyState !== "loading") {
         f(window, document, settings, afterUrlParse);
     } else {
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", () => {
             f(window, document, settings, afterUrlParse);
         });
     }
@@ -47,7 +49,9 @@ export function randomIndex(length) {
 }
 
 export function playSound(elem) {
-    if (!elem) return;
+    if (!elem) {
+        return;
+    }
     elem.play();
 }
 
@@ -68,7 +72,9 @@ export function handleClick(evt, parent) {
     const getIndex = function (e, parent) {
         const target = e.target || e.srcElement;
         for (let i = 0; i < parent.children.length; i++) {
-            if (parent.children[i] === target) return i;
+            if (parent.children[i] === target) {
+                return i;
+            }
         }
         return -1;
     };

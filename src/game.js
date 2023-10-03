@@ -82,7 +82,7 @@ export default function game(window, document, settings) {
         overlay.appendChild(clone);
         overlay.classList.add("show");
 
-        close.addEventListener("click", function (e) {
+        close.addEventListener("click", (e) => {
             e.preventDefault();
             overlay.classList.remove("show");
         }, {once: true});

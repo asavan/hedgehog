@@ -35,7 +35,7 @@ export default function engine(w, h) {
             }
             let m = 0;
             for (let i = -1; i <= 1; ++i) {
-                for(let j = -1; j<=1; ++j) {
+                for (let j = -1; j<=1; ++j) {
                     if (m === ind) {
                         if (isInField(posX, posY, [j, i])) {
                             posX = posX + j;
