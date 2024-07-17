@@ -12,7 +12,7 @@ import webpack from "webpack";
 export default function androidConfig() {
     const dirname = path.dirname(fileURLToPath(import.meta.url));
     return {
-        entry: {main: "./src/index.js"},
+        entry: {main: ["./src/index.js", "./src/css/style.css"]},
         output: {
             path: path.resolve(dirname, "../android/app/src/main/assets/www"),
             filename: "[name].[contenthash].js",
@@ -41,10 +41,7 @@ export default function androidConfig() {
         plugins: [
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
-                minify: false,
-                scriptLoading: "defer",
-                // filename:  "index.html",
-                inject: "head",
+                minify: false
             }),
             new MiniCssExtractPlugin({
                 filename: "[name].[contenthash].css"
