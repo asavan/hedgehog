@@ -1,6 +1,6 @@
 {
   "name": "hedgehog-horse-game",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "private": true,
   "sideEffects": false,
   "description": "A web part of the game",
